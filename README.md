@@ -59,6 +59,14 @@ the path has processed since last time.
 
 ["sensor_fusion"] A 2d vector of cars and then that car's [car's unique ID, car's x position in map coordinates, car's y position in map coordinates, car's x velocity in m/s, car's y velocity in m/s, car's s position in frenet coordinates, car's d position in frenet coordinates. 
 
+#### Motion Planning
+
+If another vehicle is in front of the ego vehicle and running at lower speed the first thing to do is to slow down. This is done by a very simple bang-bang controller. In this case we also want to change lanes to reach our destination quicker. Therefore, we check in the sensor fusion data, if the lane left and/or right of the ego vehicle is free be checking the space 50 m in front and behind. If this is the case this lane is the lane to change to. 
+
+These information are fed into a spline generator to create a smooth path to follow. 
+
+With this code the vehicle managed to run more then 9 miles which are about 2 laps in the provided highway map. 
+
 ## Details
 
 1. The car uses a perfect controller and will visit every (x,y) point it recieves in the list every .02 seconds. The units for the (x,y) points are in meters and the spacing of the points determines the speed of the car. The vector going from a point to the next point in the list dictates the angle of the car. Acceleration both in the tangential and normal directions is measured along with the jerk, the rate of change of total Acceleration. The (x,y) point paths that the planner recieves should not have a total acceleration that goes over 10 m/s^2, also the jerk should not go over 50 m/s^3. (NOTE: As this is BETA, these requirements might change. Also currently jerk is over a .02 second interval, it would probably be better to average total acceleration over 1 second and measure jerk from that.
